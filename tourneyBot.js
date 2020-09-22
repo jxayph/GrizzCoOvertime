@@ -1,53 +1,50 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-
 const fs = require('fs');
-const { prefix, token } = require('./config.json');
-client.login(token);
-
+const { prefix, token, tourneyGuildID } = require('./config.json');
+client.userData = require('./userData.json');
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
 client.commands = new Discord.Collection();
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.name, command); // Key = command name, value as exported module
 }
 
-client.userData = require('./userData.json');
+const globals = {fs, client};
 
-client.once('ready', () => {
+//Tournament Variables
+globals.readyPhase = false;
+globals.tourneyPhase = false;
+
+client.login(token);
+client.once('ready', async () => {
     console.log('\nConnected.');
     console.log('Logged in as: ');
     console.log(client.user.username + ' - (' + client.user.id + ')');
     console.log("Testing info:");
-    client.guilds.fetch('733336588179734608')
-        .then(guild => console.log(guild))
-        .catch(console.error);
+    client.tourneyGuild = await client.guilds.fetch(tourneyGuildID);
+    console.log(client.tourneyGuild.name);
+    console.log('\n---\n');
 });
 
-
-const globals = {fs, client};
-
-
 // Parsing
-client.on('message', message => {
+client.on('message', async message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
     
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
     const command = client.commands.get(commandName);
 
-    
-
     if (!client.commands.has(commandName)){
         return message.reply('Unrecognized command.');
-    } else if (command.args && !args.length) {
-		return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
+    } 
+    if ( (client.userData[message.author.id] != undefined) && !(client.userData[message.author.id].admin) && (command.admin)) { // Deny admin commands to public
+        return message.reply('Unrecognized command. ');
     }
 
     try {
-        command.execute(message, args, globals);
+        await command.execute(message, args, globals);
     } catch (error) {
         console.error(error);
         message.reply('there was an error trying to execute that command!');

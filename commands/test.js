@@ -1,15 +1,17 @@
 module.exports = {
 	name: 'test',
-	description: 'whatever',
-	args: false,
+    description: 'whatever',
+    detailed: 'admin test shit',
 	admin: true,
 	execute(message, args, globals) {
-        console.log(
-            globals.client.userData[message.author.id]
-        );
-        
-        //console.log(globals.client);
-
+        if(args.length==0){
+            globals.readyPhase = !globals.readyPhase;
+            console.log("ready: " + globals.readyPhase);
+        }
+        else {
+            globals.tourneyPhase = !globals.tourneyPhase;
+            console.log("tourney: " + globals.tourneyPhase);
+        }
         return;
 	},
 };
