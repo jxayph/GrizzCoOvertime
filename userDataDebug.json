@@ -1,0 +1,121 @@
+{
+    "319731113759211522": {
+        "admin": true,
+        "registered": true,
+        "ready": true,
+        "FC": "110611057246",
+        "IGN": "くそぼけ"
+    },
+    "232367541631188992": {
+        "admin": false,
+        "registered": false,
+        "ready": false,
+        "FC": "130559835312",
+        "IGN": "INKTHEWALL"
+    },
+    "534930357276114962": {
+        "admin": false,
+        "registered": false,
+        "ready": true,
+        "FC": "123412341234",
+        "IGN": "bing bong"
+    },
+    "350841975227940878": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "273150738818",
+        "IGN": "Blizz"
+    },
+    "412796010352607253": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "069671594788",
+        "IGN": "xgob"
+    },
+    "524873106377015306": {
+        "admin": false,
+        "registered": true,
+        "ready": false,
+        "FC": "225536469896",
+        "IGN": "Alegría"
+    },
+    "6": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "123456123456",
+        "IGN": "six"
+    },
+    "7": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "777777777777",
+        "IGN": "seven"
+    },
+    "8": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "888888888888",
+        "IGN": "eight"
+    },
+    "9": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "999999999999",
+        "IGN": "nine"
+    },
+    "10": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "101010101010",
+        "IGN": "ten"
+    },
+    "11": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "111111111111",
+        "IGN": "eleven"
+    },
+    "12": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "121212121212",
+        "IGN": "twelve"
+    },
+    "13": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "131313131313",
+        "IGN": "thirteen"
+    },
+    "14": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "141414141414",
+        "IGN": "fourteen"
+    },
+    "15": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "151515151515",
+        "IGN": "fifteen"
+    },
+    "16": {
+        "admin": false,
+        "registered": true,
+        "ready": true,
+        "FC": "161616161616",
+        "IGN": "sixteen"
+    }
+}
