@@ -7,7 +7,7 @@ module.exports = {
     description: 'Advance rounds.',
     detailed: 'Scores must be submitted prior to advancing. Submit a score of 0 for late teams.',
 	admin: true,
-	async execute(message, args, globals) {
+	execute(message, args, globals) {
         if(!globals.tourneyPhase) message.channel.send(`The tournament has not begun!`);
         // Ensure that scores are submitted before advancing rounds
         if (!checkAllSubmitted(message, globals)) return;

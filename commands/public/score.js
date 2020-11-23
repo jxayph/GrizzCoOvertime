@@ -4,16 +4,17 @@ module.exports = {
 	detailed: 'May not be called unless there is a tournament actively running.',
 	admin: false,
 	execute(message, args, globals) {
-		if(!globals.tourneyPhase){
+		if (!globals.tourneyPhase) {
 			return message.channel.send('There is currently no active tournament.')
 		}
-		else{
-			const authorID = message.author.id;
-			Object.entries(globals.client.userData) // Filter out ready players
-                            .filter(([userID, playerData]) => playerData.ready == true)
+		else {
+			const author = globals.players.filter(player => player.userID === message.author.id)[0]
+			if(author === undefined){
+				return message.reply(" I can't get your score, you are not participaing in the tournament!");
+			}
 
-
-			return message.channel.send('Under construction!');
+			return message.channel.send(`Player ${author.getMention()}, you have a score of ${author.getScore()}. Keep up the good work!`);
 		}
 	},
 };
+
