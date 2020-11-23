@@ -2,7 +2,7 @@ module.exports = {
     makeTeamEmbed(teamMembers, teamNum, currentRound){
         const iconURL = 'https://cdn.discordapp.com/avatars/518861328526606347/b2774300463506104c08ee2d878f7459.png?size=128';
         const teamEmbed = {
-            title: "[Squad " + (teamNum + 1) + '] Round ' + (currentRound + 1),
+            title: `[Squad ${(teamNum + 1)}] Round ${(currentRound + 1)}`,
             description: "Meet your squad!",
             thumbnail: {
                 url: iconURL,
@@ -11,7 +11,7 @@ module.exports = {
             timestamp: new Date(),
             footer: {
                 text: 'Now go out there and get me some golden eggs!',
-                icon_url: iconURL,
+                icon_url: iconURL,  
             },
             
         };
