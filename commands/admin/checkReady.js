@@ -24,7 +24,7 @@ module.exports = {
             },
             fields: [{
                 name:'Please use the `!ready` command to show that you are ready to participate!',
-                value: 'You can un-ready by calling `!ready` a second time.'
+                value: 'You can un-ready by calling `!ready` a second time.\nPlease verify that you have the Active Participant role, if you do wish to participate.'
             }],
             footer: { 
                 text: 'Please ignore this message if you no longer wish to participate.',

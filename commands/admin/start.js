@@ -20,9 +20,9 @@ module.exports = {
         globals.tourneyPhase = true;
         globals.submitted = [];
         globals.scores = [];
-
-        let data = globals.client.userDataDebug; //debug shit, but in practice we'll use actual userData
-        //let data = globals.client.userData;
+        let data;
+        if (globals.debug) data = globals.client.userDataDebug;
+        else data = globals.client.userData;
 
         let filteredData = shuffle(Object.entries(data) // Filter out ready players
             .filter(([userID, playerData]) => playerData.ready));
@@ -42,7 +42,7 @@ module.exports = {
         loadSeed(filteredData.length, globals); // Load in the corresponding seed to # of ready players
         setPlayers(filteredData, globals); // Build player objects for each ready player
 
-        if (args[0] == '-v') return;
+        if (args[0] == '-v') return; // minus verbosity flag
 
         const channel = globals.client.channels.cache.find(channel => channel.name === 'tournament-announcements');
 

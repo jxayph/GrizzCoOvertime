@@ -19,7 +19,7 @@ module.exports = {
 async function makeSquad(message, squadNum){
     // Role creation
     const roleData = {
-        name: 'Squad ' + squadNum,
+        name: `Squad ${squadNum}`,
         hoist: false,
         mentionable: false
     }
@@ -40,7 +40,7 @@ async function makeSquad(message, squadNum){
     ];
     const textOptions = {
         type: 'text',
-        topic: 'Squad ' + squadNum + ' text chat.',
+        topic: `Squad ${squadNum} text chat.`,
         parent: '761755791409152020', // Squad channel category ID
         permissionOverwrites: textPerms,
     }
@@ -62,7 +62,6 @@ async function makeSquad(message, squadNum){
     ];
     const voiceOptions = {
         type: 'voice',
-        topic: 'Squad ' + squadNum + ' text chat.',
         parent: '761755791409152020', // Squad channel category ID
         permissionOverwrites: voicePerms,
     }
