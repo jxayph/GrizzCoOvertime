@@ -7,14 +7,14 @@ module.exports = {
 		const publicCommands = globals.client.commands.filter(command => command.admin == true);
 		const iconURL = 'https://media.discordapp.net/attachments/759237372578627624/759237412034445332/grzzpng.png';
 		const docURL = 'https://tinyurl.com/GrizzCoOvertime';
-		if(args.length == 0){ 
-			const commandInfo = [];			
-			
-			for (let command of publicCommands.values()){
+		if(args.length == 0) {
+			const commandInfo = [];
+
+			for (const command of publicCommands.values()) {
 				commandInfo.push({
 					name: command.name,
-					value: command.description
-				})
+					value: command.description,
+				});
 			}
 			const helpEmbed = {
 				title: 'Command List',
@@ -31,12 +31,13 @@ module.exports = {
 				},
 			};
 
-			message.channel.send({embed:helpEmbed});
+			message.channel.send({ embed:helpEmbed });
 
-		} else {
-			const command = publicCommands.filter(command => command.name == args[0]);
-			
-			if(command.size){
+		}
+		else {
+			const command = publicCommands.filter(fileCommand => fileCommand.name == args[0]);
+
+			if(command.size) {
 
 				const helpEmbed = {
 					title: command.get(args[0]).name,
@@ -46,21 +47,22 @@ module.exports = {
 						url: iconURL,
 					},
 					fields: {
-						
+
 						name: command.get(args[0]).name,
-						value: command.get(args[0]).detailed
+						value: command.get(args[0]).detailed,
 					},
 					timestamp: new Date(),
 					footer: {
 						text: 'Now go out there and get me some golden eggs!',
 						icon_url: iconURL,
 					},
-					
+
 				};
 
-			message.channel.send({embed:helpEmbed});
+				message.channel.send({ embed:helpEmbed });
 
-			} else message.channel.send("Invalid command.");
+			}
+			else {message.channel.send('Invalid command.');}
 
 		}
 	},

@@ -1,10 +1,7 @@
-const Player = require('../../helpers/Player.js');
-const loadSeed = require('../../helpers/loadSeed.js').loadSeed;
-const eraseRole = require('../../helpers/eraseRole.js').eraseRole;
 module.exports = {
-	name: 'test',
-	description: 'whatever',
-	detailed: 'admin test shit',
+	name: 'viewscore',
+	description: 'View a player\'s score.',
+	detailed: 'Syntax: !viewscore <playerMention>',
 	admin: true,
 	async execute(message, args, globals) {
 		if (!message.mentions.users.first()) {
@@ -16,7 +13,6 @@ module.exports = {
 		if (!player) {
 			return await message.channel.send('Please mention a participating player.');
 		}
-		await message.channel.send(`${player.scores}`);
-		console.log(player.scores);
+		await message.channel.send(`Scores: ${player.scores}`);
 	},
 };
