@@ -1,116 +1,117 @@
 module.exports = {
 	name: 'register',
-    description: 'Allow users to register for the tournament.\nFormat: `!register <fc> <ign>, !register`',
-    detailed: 'FC must be 12 digits. FC is allowed to be led by SW, and/or separated by dashes. (\'-\')\n' +
-        'IGN must be 10 valid characters.\n' +
-        'To unregister, simply call !register again.\n' +
-        'Registration status may not be changed after the tournament has started.',
-    admin: false,
-    errorMessage: '',
+	description: 'Allow users to register for the tournament.\nFormat: `!register <fc> <ign>, !register`',
+	detailed: 'FC must be 12 digits. FC is allowed to be led by SW, and/or separated by dashes. (\'-\')\n' +
+		'IGN must be 10 valid characters.\n' +
+		'To unregister, simply call !register again.\n' +
+		'Registration status may not be changed after the tournament has started.',
+	admin: false,
+	errorMessage: '',
 	execute(message, args, globals) {
-        let fc = args[0];
-        let ign = args[1];
+		const fc = args[0];
+		let ign = args[1];
 
-        for(var i = 2; i < args.length; i++){
-            ign += ' ' + args[i];
-        }
+		for (let i = 2; i < args.length; i++) {
+			ign += ` ${args[i]}`;
+		}
 
-        if(globals.readyPhase || globals.tourneyPhase){
-            message.channel.send("You may not change your registration status at this point in time.")
-            return;
-        }
+		if (globals.readyPhase || globals.tourneyPhase) {
+			message.channel.send('You may not change your registration status at this point in time.');
+			return;
+		}
 
-        registerUser(message,fc, ign, globals.client, globals.fs);
-        
-        return;
+		registerUser(message, fc, ign, globals.client, globals.fs);
+
+		return;
 	},
 };
 
-function verifyFC(fc){
-    if (!fc) return [fc, "You did not provide a friend code!"];
+function verifyFC(fc) {
+	if (!fc) return [fc, 'You did not provide a friend code!'];
 
-    if (fc.toLowerCase().startsWith('sw'))  fc = fc.slice(2);
-    fc = fc.replace(/-/g, '');
+	if (fc.toLowerCase().startsWith('sw')) fc = fc.slice(2);
+	fc = fc.replace(/-/g, '');
 
-    if (!/^\d+$/.test(fc)) return [fc, "Invalid characters detected!"];
+	if (!/^\d+$/.test(fc)) return [fc, 'Invalid characters detected!'];
 
-    if (fc.length != 12) return [fc, "Please input 12 numbers!"];
+	if (fc.length != 12) return [fc, 'Please input 12 numbers!'];
 
-    return [fc, ''];
+	return [fc, ''];
 }
 
-function verifyIGN(ign){  
-    if (!ign) return [ign,"You did not provide an IGN!"];
+function verifyIGN(ign) {
+	if (!ign) return [ign, 'You did not provide an IGN!'];
 
-    if (ign.length > 10) return [ign, "Please provide a valid IGN!"];
+	if (ign.length > 10) return [ign, 'Please provide a valid IGN!'];
 
-    ign = sanitizeIGN(ign);
+	ign = sanitizeIGN(ign);
 
-    return [ign, ''];
+	return [ign, ''];
 }
 
-function sanitizeIGN(ign){    
-    ign = ign.replace(/(\/)/g, '\\/')
-        .replace(/(\*)/g, '\\*')
-        .replace(/(\_)/g, '\\_')
-        .replace(/(\|)/g, '\\|')
-        .replace(/(\`)/g, '\\`')
-        .replace(/(\~)/g, '\\~')
-        .replace(/(\@)/g, '\\@ ')
-        .replace(/(\n)/g, '');
-    return ign;
+function sanitizeIGN(ign) {
+	ign = ign
+		.replace(/(\/)/g, '\\/')
+		.replace(/(\*)/g, '\\*')
+		.replace(/(\_)/g, '\\_')
+		.replace(/(\|)/g, '\\|')
+		.replace(/(\`)/g, '\\`')
+		.replace(/(\~)/g, '\\~')
+		.replace(/(\@)/g, '\\@ ')
+		.replace(/(\n)/g, '');
+	return ign;
 }
 
-function registerUser(message, fc, ign, client, fs){
-    const userID = message.author.id;
-    const userData = client.userData[userID];
-    const member = message.guild.members.cache.get(userID);
-    let err = '';
+function registerUser(message, fc, ign, client, fs) {
+	const userID = message.author.id;
+	const userData = client.userData[userID];
+	const member = message.guild.members.cache.get(userID);
+	let err = '';
 
-    if(userData && userData.registered){
-        userData.registered = false;
-        member.roles.remove(message.guild.roles.cache.find(role => role.name === 'Registered'));
-        saveUserData(fs, client);
-        message.channel.send(`Successfuly unregistered <@${userID}>. We hope to see you in the next one!`);
-        message.react('✅');
-        return;
-    }
+	if (userData && userData.registered) {
+		userData.registered = false;
+		member.roles.remove(message.guild.roles.cache.find(role => role.name === 'Registered'));
+		saveUserData(fs, client);
+		message.channel.send(`Successfuly unregistered <@${userID}>. We hope to see you in the next one!`);
+		message.react('✅');
+		return;
+	}
 
-    [fc, err] = verifyFC(fc);
-    if (err){
-        message.channel.send(err);
-        return;
-    } 
-    [ign, err] = verifyIGN(ign);
-    if (err){
-        message.channel.send(err);
-        return;
-    } 
-    
-    let newUserData = {
-        "admin": false,
-        "registered": true,
-        "ready": false,
-        "FC": fc,
-        "IGN": ign
-    }
-    if(userData){
-        newUserData.admin = userData.admin;
-    }
+	[fc, err] = verifyFC(fc);
+	if (err) {
+		message.channel.send(err);
+		return;
+	}
+	[ign, err] = verifyIGN(ign);
+	if (err) {
+		message.channel.send(err);
+		return;
+	}
 
-    client.userData[userID] = newUserData;
+	const newUserData = {
+		'admin': false,
+		'registered': true,
+		'ready': false,
+		'FC': fc,
+		'IGN': ign,
+	};
+	if (userData) {
+		newUserData.admin = userData.admin;
+	}
 
-    member.roles.add(message.guild.roles.cache.find(role => role.name === 'Registered'));
+	client.userData[userID] = newUserData;
 
-    saveUserData(fs, client);
+	member.roles.add(message.guild.roles.cache.find(role => role.name === 'Registered'));
 
-    message.channel.send(`Successfully registered <@${userID}> as ${client.userData[userID].IGN} for the coming tournament.\nGood luck, and have fun!`);
-    console.log(client.userData[userID]);
-    return;
+	saveUserData(fs, client);
+
+	message.channel.send(`Successfully registered <@${userID}> as ${client.userData[userID].IGN} for the coming tournament.\nGood luck, and have fun!`);
+	console.log(client.userData[userID]);
+	return;
 }
 
-function saveUserData(fs, client){
-	fs.writeFile("./userData.json", JSON.stringify(client.userData, null, 4), err => {
-		if(err) throw err;
+function saveUserData(fs, client) {
+	fs.writeFile('./userData.json', JSON.stringify(client.userData, null, 4), err => {
+		if (err) throw err;
 	});
 }

@@ -5,6 +5,6 @@ module.exports = {
 	admin: false,
 	execute(message, args, globals) {
 		message.react('❤️');
-		message.reply("You're welcome!");
+		message.reply('you\'re welcome!');
 	},
 };
