@@ -1,5 +1,5 @@
 const DC_VALUE = 0;
-const RANDOM_VALUE = 0;
+const FREELANCER_VALUE = 0;
 
 module.exports = class Player {
 	constructor(IGN, FC, userID) {
@@ -9,6 +9,7 @@ module.exports = class Player {
 		this.scores = [];
 		this.teamDC = [];
 		this.randoms = [];
+		this.encounters = {};
 	}
 
 	getMention() {
@@ -21,15 +22,17 @@ module.exports = class Player {
 		let lowestScore = 9999;
 
 		for (let i = 0; i < scoreClone.length; i++) {
-			if (lowestScore > scoreClone[i]) lowestScore = scoreClone[i];
-			sum += parseInt(scoreClone[i]);
+			if (scoreClone[i]) {
+				if (lowestScore > scoreClone[i]) lowestScore = scoreClone[i];
+				sum += parseInt(scoreClone[i]);
+			}
 		}
 
 		const teamDCRounds = this.teamDC.filter(hadDisconnect => hadDisconnect);
 		const randomRounds = this.randoms.filter(hadRandom => hadRandom);
 
 		sum += parseInt(teamDCRounds.length * DC_VALUE);
-		sum += parseInt(randomRounds.length * RANDOM_VALUE);
+		sum += parseInt(randomRounds.length * FREELANCER_VALUE);
 
 		sum -= lowestScore;
 
