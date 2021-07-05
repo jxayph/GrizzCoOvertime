@@ -10,8 +10,8 @@ module.exports = {
 		}
 
 		const round = (args[1] - 1);
-		if (!args[1]) {
-			return await message.channel.send('Please input a round.');
+		if (!args[1] || args[1] > globals.currentRound) {
+			return await message.channel.send('Please input a valid round.');
 		}
 
 
@@ -20,7 +20,7 @@ module.exports = {
 		}
 		const userID = message.mentions.users.first().id;
 
-		const player = globals.players.find(player => player.userID == userID);
+		const player = globals.players.find(thisPlayer => thisPlayer.userID == userID);
 		if (!player) {
 			return await message.channel.send('Please mention a participating player.');
 		}

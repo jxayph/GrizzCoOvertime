@@ -9,7 +9,7 @@ module.exports = {
 		}
 		const userID = message.mentions.users.first().id;
 
-		const player = globals.players.find(player => player.userID == userID);
+		const player = globals.players.find(thisPlayer => thisPlayer.userID == userID);
 		if (!player) {
 			return await message.channel.send('Please mention a participating player.');
 		}

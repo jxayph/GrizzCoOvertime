@@ -6,8 +6,8 @@ module.exports = {
 	admin: true,
 	async execute(message, args, globals) {
 
-		let deletionList = ['Registered', 'Active Participant'];
-
+		const deletionList = ['Registered', 'Active Participant'];
+		// const deletionList = ['Active Participant'];
 		for (let i = 0; i < globals.teamCount; i++) {
 			deletionList.push(`Squad ${i + 1}`);
 		}
@@ -15,7 +15,7 @@ module.exports = {
 
 		for (let i = 0; i < deletionList.length; i++) {
 			await eraseRole(message, deletionList[i])
-				.then(message.channel.send(`Erasure of \'${deletionList[i]}\' complete.`));
+				.then(message.channel.send(`Erasure of '${deletionList[i]}' complete.`));
 		}
 	},
 };

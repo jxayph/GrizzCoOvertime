@@ -54,7 +54,7 @@ function commmitScore(team, globals, score, dcs) {
 	const hadRandom = teamMembers[3] == 'R';
 
 	for (let i = 0; i < teamMembers.length; i++) {
-		if (teamMembers[i] != 'R') {
+		if (teamMembers[i] != 'R' && globals.players[teamMembers[i]] != undefined) {
 			const player = globals.players[teamMembers[i]];
 			player.scores[currentRound] = score;
 			player.randoms[currentRound] = hadRandom;
@@ -63,7 +63,7 @@ function commmitScore(team, globals, score, dcs) {
 				if (!dcs.includes(i)) player.teamDC[currentRound] = true;
 				else player.teamDC[currentRound] = false;
 			}
-			else {player.teamDC[currentRound] = false;}
+			else { player.teamDC[currentRound] = false; }
 		}
 	}
 }

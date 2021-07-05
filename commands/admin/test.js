@@ -1,22 +1,18 @@
-const Player = require('../../helpers/Player.js');
-const loadSeed = require('../../helpers/loadSeed.js').loadSeed;
-const eraseRole = require('../../helpers/eraseRole.js').eraseRole;
 module.exports = {
 	name: 'test',
 	description: 'whatever',
 	detailed: 'admin test shit',
 	admin: true,
 	async execute(message, args, globals) {
-		if (!message.mentions.users.first()) {
-			return await message.channel.send('Please mention a player.');
-		}
-		const userID = message.mentions.users.first().id;
+		const currentDate = new Date();
+		let ms = globals.tourneyDate - currentDate;
 
-		const player = globals.players.find(player => player.userID == userID);
-		if (!player) {
-			return await message.channel.send('Please mention a participating player.');
-		}
-		await message.channel.send(`${player.scores}`);
-		console.log(player.scores);
+		const hours = Math.floor(ms / 1000 / 60 / 60);
+		ms -= hours * 60 * 60 * 1000;
+		const min = Math.floor(ms / 1000 / 60);
+
+		if (hours <= 0 && min <= 0) return message.channel.send('Registration is closed.');
+
+		return message.channel.send(`Registration will close in ${hours} hour(s) and ${min} minute(s).`);
 	},
 };

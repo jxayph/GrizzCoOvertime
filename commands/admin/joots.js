@@ -3,7 +3,6 @@ module.exports = {
 	description: 'meme',
 	detailed: 'haha',
 	admin: true,
-	errorMessage: '',
 	execute(message, args) { // Ignoring third `globals` argument
 		let jessage = '';
 		for (let i = 0; i < args.length; i++) {

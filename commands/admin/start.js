@@ -7,7 +7,7 @@ module.exports = {
 	name: 'start',
 	description: 'Ends the check-in phase and seeds matchmaking. Users will no longer be able to change registration status, nor ready status.',
 	detailed: 'The bot should make an announcement that the check-in period has ended, and that players will soon be sent to their respective lobbies to begin play,'
-        + ' unless the ‘-v’ flag is specified, in which case the announcement shall be suppressed. This command may be rerun with changes made to the RNG seed.',
+		+ ' unless the ‘-v’ flag is specified, in which case the announcement shall be suppressed. This command may be rerun with changes made to the RNG seed.',
 	admin: true,
 	execute(message, args, globals) {
 
@@ -24,10 +24,8 @@ module.exports = {
 		if (globals.debug) data = globals.client.userDataDebug;
 		else data = globals.client.userData;
 
-		// let filteredData = shuffle(Object.entries(data) // Filter out ready players
-		//     .filter(([userID, playerData]) => playerData.ready));
 		const filteredData = shuffle(Object.entries(data) // Filter out ready players
-			.filter(([userID, playerData]) => (playerData.ready || playerData.registered))); // todo: CHANGE THIS BC DEBUG
+			.filter(([userID, playerData]) => playerData.ready));
 
 		globals.playerCount = filteredData.length;
 		globals.teamCount = Math.ceil(globals.playerCount / 4);
@@ -46,7 +44,7 @@ module.exports = {
 
 		if (args[0] == '-v') return; // minus verbosity flag
 
-		const channel = globals.client.channels.cache.find(channel => channel.name === 'tournament-announcements');
+		const channel = globals.client.channels.cache.find(thisChannel => thisChannel.name === 'tournament-announcements');
 
 		const iconURL = 'https://media.discordapp.net/attachments/759237372578627624/759237412034445332/grzzpng.png';
 

@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'checkready',
-	description: 'End registration phase and begin check in phase.',
+	description: 'End registration phase and begin check in phase. Invoke multiple times to toggle back to registration phase.',
 	detailed: 'Bot will announce to @Registered players that the check in phase is beginning, unless the "-v" flag is invoked.',
 	admin: true,
 	execute(message, args, globals) {

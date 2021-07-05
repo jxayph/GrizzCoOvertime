@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'adminhelp',
-	description: 'Provides a list of admin commands. Use !help <command> for more details.',
+	description: 'Provides a list of admin commands. Use !adminhelp <command> for more details.',
 	detailed: 'If you\'re still confused, please ping JX or read the admin docs',
 	admin: true,
 	execute(message, args, globals) {

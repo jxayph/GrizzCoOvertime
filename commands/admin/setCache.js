@@ -5,15 +5,15 @@ module.exports = {
 	admin: true,
 	async execute(message, args, globals) {
 		if (message.guild.memberCount == message.guild.members.cache.size) {
-			await message.channel.send("Error: cache is already loaded.");
+			await message.channel.send('Error: cache is already loaded.');
 			return;
 		}
 
 		await message.guild.members.fetch()
-			.then(message.channel.send("Cache loaded."));
+			.then(message.channel.send('Cache loaded.'));
 		message.channel.send(
 			`Membercount: ${message.guild.memberCount} \n` +
-			`Cached member count ${message.guild.members.cache.size}`
+			`Cached member count ${message.guild.members.cache.size}`,
 		);
 	},
 };
