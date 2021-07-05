@@ -35,7 +35,7 @@ module.exports = {
 
 		}
 		else {
-			const command = publicCommands.filter(command => command.name == args[0]);
+			const command = publicCommands.filter(thisCommand => thisCommand.name == args[0]);
 
 			if(command.size) {
 

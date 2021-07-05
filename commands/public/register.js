@@ -6,7 +6,6 @@ module.exports = {
 		'To unregister, simply call !register again.\n' +
 		'Registration status may not be changed after the tournament has started.',
 	admin: false,
-	errorMessage: '',
 	execute(message, args, globals) {
 		const fc = args[0];
 		let ign = args[1];
@@ -53,11 +52,11 @@ function sanitizeIGN(ign) {
 	ign = ign
 		.replace(/(\/)/g, '\\/')
 		.replace(/(\*)/g, '\\*')
-		.replace(/(\_)/g, '\\_')
+		.replace(/(_)/g, '\\_')
 		.replace(/(\|)/g, '\\|')
-		.replace(/(\`)/g, '\\`')
-		.replace(/(\~)/g, '\\~')
-		.replace(/(\@)/g, '\\@ ')
+		.replace(/(`)/g, '\\`')
+		.replace(/(~)/g, '\\~')
+		.replace(/(@)/g, '\\@ ')
 		.replace(/(\n)/g, '');
 	return ign;
 }
