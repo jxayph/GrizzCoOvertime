@@ -1,6 +1,7 @@
 const loadSeed = require('../../helpers/loadSeed.js').loadSeed;
 const shuffle = require('../../helpers/shuffle.js').shuffle;
 const setPlayers = require('../../helpers/setPlayers.js').setPlayers;
+const checkAllSubmitted = require('../../helpers/checkAllSubmitted.js').checkAllSubmitted;
 
 module.exports = {
 	name: 'dq',
@@ -11,6 +12,9 @@ module.exports = {
 		/*
 		To DQ a player, we must remove them from the ready players list and then reseed the matchmaking.
 		*/
+
+		// Ensure that scores are submitted before DQ
+		if (!checkAllSubmitted(message, globals)) return;
 
 		const userID = message.mentions.users.first().id;// Find the player to DQ
 		const dQPlayer = globals.players.find(thisPlayer => thisPlayer.userID == userID);
@@ -27,7 +31,7 @@ module.exports = {
 		userData.ready = false; // Unready; remove from the tournament
 
 		console.log(`DQ player ${userData.IGN}`);
-		const text = `:x: Player ${userData.IGN}  has been removed from the tournament.`; // Feedback
+		const text = `:x: Player ${userData.IGN} has been removed from the tournament.`; // Feedback
 		const messageEmbed = {
 			title: text,
 		};
@@ -52,7 +56,7 @@ module.exports = {
 		console.log(typeof (globals.seed));
 		globals.seed = globals.seed.slice(0, startIdx).concat(newSeed);
 
-		setPlayers(filteredData, globals); // FUCKUP; ASSIGNING NEW PLAYERS INSTEAD OF REUSING OLD ONES
+		setPlayers(filteredData, globals);
 
 	},
 };

@@ -1,6 +1,7 @@
 const makeTeamEmbed = require('../../helpers/makeTeamEmbed.js').makeTeamEmbed;
 const recycle = require('../../helpers/recycle.js').recycle;
 const eraseRole = require('../../helpers/eraseRole.js').eraseRole;
+const checkAllSubmitted = require('../../helpers/checkAllSubmitted.js').checkAllSubmitted;
 
 module.exports = {
 	name: 'next',
@@ -60,7 +61,6 @@ module.exports = {
 				}
 			}
 
-
 			if (globals.debug) { message.channel.send(makeTeamEmbed(players, team, globals.currentRound)); }
 
 			else { // sends squad messages to correct channels. also assigns the roles and stuff.
@@ -75,25 +75,11 @@ module.exports = {
 		if (args[0] != '-v') {
 			return announcementChannel.send(
 				'<@&736689720247058442>\n' +
-				'We have moved on to the next round! Please check your squad chats to meet your new teams.');
+				'We have moved on to the next round! Please check your squad chats to meet your new teams.' +
+				'<@&934542087431524403>, please contact an Organizer if you wish to fill in for a freelancer.');
 		}
 	},
 };
-
-function checkAllSubmitted(message, globals) {
-	const teamCount = globals.teamCount;
-	let waiting = '';
-	for (let i = 0; i < teamCount; i++) {
-		if (!globals.submitted[i]) waiting = waiting.concat((i + 1) + ' ');
-	}
-
-	if (waiting.length != 0) {
-		message.channel.send(`You may not advance rounds! Scores for team(s) ${waiting} have not yet been submitted!`);
-		return false;
-	}
-	return true;
-
-}
 
 async function manageRoles(globals, message, players, teamIdx) {
 
@@ -113,7 +99,6 @@ async function manageRoles(globals, message, players, teamIdx) {
 	}
 	console.log('Role assigment finished.\n');
 }
-
 
 async function removeSquadRoles(message, teamCount) {
 	for (let i = 0; i < teamCount; i++) {

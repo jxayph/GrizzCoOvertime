@@ -36,6 +36,15 @@ module.exports = {
 
 		message.channel.send(`Submitted a score of ${score} for Team ${(team + 1)}.`);
 		if (dcs.length > 0) message.channel.send(`Team member(s) at index(es) ${dcs} disconnected.`);
+
+		let waiting = '';
+		for (let i = 0; i < globals.teamCount; i++) {
+			if (!globals.submitted[i]) waiting = waiting.concat((i + 1) + ' ');
+		}
+
+		if (waiting == '') message.channel.send('All teams have submitted scores.');
+		else message.channel.send(`Awaiting scores from team(s) ${waiting}.`);
+		return true;
 	},
 };
 

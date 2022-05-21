@@ -26,6 +26,11 @@ module.exports = {
 					member.roles.add(message.guild.roles.cache.find(role => role.name === 'Active Participant'));
 					userData.ready = true;
 
+
+					if (member.roles.cache.some(role => role.name === 'Substitute')) { // If the user has registered as a sub, remove that.
+						member.roles.remove(message.guild.roles.cache.find(role => role.name === 'Substitute'));
+					}
+
 					const text = `:white_check_mark: Player ${userData.IGN} is ready!`;
 					const messageEmbed = {
 						title: text,
