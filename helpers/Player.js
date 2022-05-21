@@ -24,7 +24,12 @@ module.exports = class Player {
 		for (let i = 0; i < scoreClone.length; i++) {
 			if (scoreClone[i]) {
 				if (lowestScore > scoreClone[i]) lowestScore = scoreClone[i];
-				sum += parseInt(scoreClone[i]);
+				if (scoreClone[i] == undefined) {
+					sum += 999999;
+				}
+				else {
+					sum += parseInt(scoreClone[i]);
+				}
 			}
 		}
 

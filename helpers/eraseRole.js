@@ -7,5 +7,6 @@ module.exports = {
 		for (const member of memberList) {
 			await message.guild.members.cache.get(member).roles.remove(message.guild.roles.cache.find(role => role.name == roleName));
 		}
+		return true;
 	},
 };
