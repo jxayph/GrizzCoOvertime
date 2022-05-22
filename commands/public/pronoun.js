@@ -1,7 +1,9 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
 	name: 'pronoun',
 	description: 'Get pronoun roles.',
-	detailed: '!pronoun <he | she | they>',
+	detailed: '!pronoun <he | she | they | it>',
 	admin: false,
 	execute(message, args, globals) {
 		const pronoun = args[0];
@@ -41,15 +43,12 @@ module.exports = {
 		}
 		else {
 			const text = ':x: Role update unsuccessful.';
-			const messageEmbed = {
-				title: text,
-			};
-			return message.channel.send({ embed: messageEmbed });
+
+			const messageEmbed = new MessageEmbed().setTitle(text);
+			return message.channel.send({ embeds: [messageEmbed] });
 		}
 		const text = ':white_check_mark: Role successfully updated!';
-		const messageEmbed = {
-			title: text,
-		};
-		return message.channel.send({ embed: messageEmbed });
+		const messageEmbed = new MessageEmbed().setTitle(text);
+		return message.channel.send({ embeds: [messageEmbed] });
 	},
 };

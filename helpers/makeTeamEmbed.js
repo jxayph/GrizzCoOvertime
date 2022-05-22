@@ -1,36 +1,34 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
 	makeTeamEmbed(teamMembers, teamNum, currentRound) {
 		const iconURL = 'https://cdn.discordapp.com/avatars/518861328526606347/b2774300463506104c08ee2d878f7459.png?size=128';
-		const teamEmbed = {
-			title: `[Squad ${(teamNum + 1)}] Round ${(currentRound + 1)}`,
-			description: 'Meet your squad!',
-			thumbnail: {
-				url: iconURL,
-			},
-			fields: [],
-			timestamp: new Date(),
-			footer: {
+
+		const teamEmbed = new MessageEmbed()
+			.setTitle(`[Squad ${(teamNum + 1)}] Round ${(currentRound + 1)}`)
+			.setDescription('Meet your squad!')
+			.setThumbnail(iconURL)
+			.setTimestamp(new Date())
+			.setFooter({
 				text: 'Now go out there and get me some golden eggs!',
 				icon_url: iconURL,
-			},
+			});
 
-		};
-
-		for(let i = 0; i < 4; i++) {
+		for (let i = 0; i < 4; i++) {
 			if (teamMembers[i] == undefined) {
-				teamEmbed.fields.push({
+				teamEmbed.addFields({
 					name: 'Freelancer',
 					value: 'N/A',
 				});
 			}
-			else{
-				teamEmbed.fields.push({
+			else {
+				teamEmbed.addFields({
 					name: teamMembers[i].IGN,
 					value: teamMembers[i].FC,
 				});
 			}
 		}
 
-		return({ embed:teamEmbed });
+		return ({ embeds: [teamEmbed] });
 	},
 };

@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
 	name: 'region',
 	description: 'Get region roles.',
@@ -33,15 +35,11 @@ module.exports = {
 		}
 		else {
 			const text = ':x: Role update unsuccessful.';
-			const messageEmbed = {
-				title: text,
-			};
-			return message.channel.send({ embed: messageEmbed });
+			const messageEmbed = new MessageEmbed().setTitle(text);
+			return message.channel.send({ embeds: [messageEmbed] });
 		}
 		const text = ':white_check_mark: Role successfully updated!';
-		const messageEmbed = {
-			title: text,
-		};
-		return message.channel.send({ embed: messageEmbed });
+		const messageEmbed = new MessageEmbed().setTitle(text);
+		return message.channel.send({ embeds: [messageEmbed] });
 	},
 };

@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
 	name: 'ready',
 	description: 'Check in at the start of a tournament.',
@@ -13,10 +15,9 @@ module.exports = {
 			if (userData && userData.registered) {
 				if (userData.ready) {
 					const text = `:x: Player ${userData.IGN} is **NOT** ready!`;
-					const messageEmbed = {
-						title: text,
-					};
-					message.channel.send({ embed: messageEmbed });
+
+					const messageEmbed = new MessageEmbed().setTitle(text);
+					message.channel.send({ embeds: [messageEmbed] });
 
 					member.roles.remove(message.guild.roles.cache.find(role => role.name === 'Active Participant'));
 					userData.ready = false;
@@ -26,16 +27,15 @@ module.exports = {
 					member.roles.add(message.guild.roles.cache.find(role => role.name === 'Active Participant'));
 					userData.ready = true;
 
-
 					if (member.roles.cache.some(role => role.name === 'Substitute')) { // If the user has registered as a sub, remove that.
 						member.roles.remove(message.guild.roles.cache.find(role => role.name === 'Substitute'));
 					}
 
 					const text = `:white_check_mark: Player ${userData.IGN} is ready!`;
-					const messageEmbed = {
-						title: text,
-					};
-					message.channel.send({ embed: messageEmbed });
+
+					const messageEmbed = new MessageEmbed().setTitle(text);
+
+					message.channel.send({ embeds: [messageEmbed] });
 					message.react('✅');
 				}
 			}

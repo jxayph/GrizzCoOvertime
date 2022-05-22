@@ -28,10 +28,9 @@ module.exports = {
 			else txt += `${min} minutes.`;
 		}
 		else if (min == 1) { txt += '1 minute.'; }
-		else if (min == 0) { txt += 'less than a minute.'; }
+		else if (days == 0 && hours == 0 && min == 0) { txt += 'less than a minute.'; }
 		else { txt += `${min} minutes.`; }
-
-		return message.channel.send(txt);
+		return message.channel.send(`The tournament is scheduled to begin 15 minutes after <t:${Math.round(globals.tourneyDate.getTime() / 1000).toString()}> in your local time.\n` + txt);
 		// return message.channel.send(`Registration will close in ${days} day(s), ${hours} hour(s) and ${min} minute(s).`);
 	},
 };

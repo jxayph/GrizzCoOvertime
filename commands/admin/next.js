@@ -2,6 +2,7 @@ const makeTeamEmbed = require('../../helpers/makeTeamEmbed.js').makeTeamEmbed;
 const recycle = require('../../helpers/recycle.js').recycle;
 const eraseRole = require('../../helpers/eraseRole.js').eraseRole;
 const checkAllSubmitted = require('../../helpers/checkAllSubmitted.js').checkAllSubmitted;
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	name: 'next',

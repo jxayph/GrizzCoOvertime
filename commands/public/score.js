@@ -13,7 +13,7 @@ module.exports = {
 
 			const author = globals.players.filter(player => player.userID === message.author.id)[0];
 			if (author === undefined) {
-				return message.reply(' I can\'t get your score, you are not participaing in the tournament!');
+				return message.reply({ content: ' I can\'t get your score, you are not participaing in the tournament!' });
 			}
 			if (args[0] == 'all') {
 				const player = globals.players.find(thisPlayer => thisPlayer.userID == message.author.id);

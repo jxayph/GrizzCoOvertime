@@ -2,6 +2,7 @@ const loadSeed = require('../../helpers/loadSeed.js').loadSeed;
 const shuffle = require('../../helpers/shuffle.js').shuffle;
 const setPlayers = require('../../helpers/setPlayers.js').setPlayers;
 const checkAllSubmitted = require('../../helpers/checkAllSubmitted.js').checkAllSubmitted;
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	name: 'dq',
@@ -32,10 +33,9 @@ module.exports = {
 
 		console.log(`DQ player ${userData.IGN}`);
 		const text = `:x: Player ${userData.IGN} has been removed from the tournament.`; // Feedback
-		const messageEmbed = {
-			title: text,
-		};
-		message.channel.send({ embed: messageEmbed });
+
+		const messageEmbed = new MessageEmbed().setTitle(text);
+		message.channel.send({ embeds: [messageEmbed] });
 
 		const data = globals.client.userData;
 		const filteredData = shuffle(Object.entries(data) // Recalculate ready players

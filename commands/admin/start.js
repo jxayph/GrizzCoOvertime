@@ -2,6 +2,7 @@ const Player = require('../../helpers/Player.js');
 const loadSeed = require('../../helpers/loadSeed.js').loadSeed;
 const shuffle = require('../../helpers/shuffle.js').shuffle;
 const setPlayers = require('../../helpers/setPlayers.js').setPlayers;
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	name: 'start',
@@ -48,23 +49,23 @@ module.exports = {
 
 		const iconURL = 'https://media.discordapp.net/attachments/759237372578627624/759237412034445332/grzzpng.png';
 
-		const messageEmbed = {
-			title: 'The tournament will begin very soon!',
-			thumbnail: {
-				url: iconURL,
-			},
-			fields: [{
-				name: 'You will soon be granted access to your team channels.',
-				value: 'You may not change your ready status at this time.',
-			}],
-			footer: {
+		const messageEmbed = new MessageEmbed()
+			.setTitle('The tournament will begin very soon!')
+			.setDescription(' ')
+			.setThumbnail(iconURL)
+			.setTimestamp(new Date())
+			.setFooter({
 				text: 'Now go out there and get me some golden eggs!',
 				icon_url: iconURL,
-			},
-		};
+			})
+			.setFields([{
+				name: 'You will soon be granted access to your team channels.',
+				value: 'You may not change your ready status at this time.',
+			}]);
 
 
-		return channel.send('<@&736689720247058442>', { embed: messageEmbed });
+		channel.send({ content: '<@&736689720247058442>', embeds: [messageEmbed] });
+		return;
 	},
 };
 
