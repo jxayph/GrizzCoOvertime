@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS', 'GUILD_MEMBERS'] });
 
 let cacheLoaded = false;
 
@@ -28,11 +28,11 @@ const Player = require('./helpers/Player.js');
 // Tournament Variables
 globals.readyPhase = false;
 globals.tourneyPhase = false;
+globals.tourneyDate = new Date('May 22, 2022, 016:45:00'); // start time
 
 // debug/testing stuff
 globals.debug = false;
 if (globals.debug) client.userDataDebug = require('./userDataDebug.json'); // debug
-
 
 // Log in
 client.login(token);
@@ -47,13 +47,13 @@ client.once('ready', async () => {
 });
 
 // Parsing
-client.on('message', async message => {
+client.on('messageCreate', async message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) {
 		return;
 	}
-	
+
 	if (client.userData[message.author.id] != undefined && client.userData[message.author.id].admin && !cacheLoaded) {
-		console.log("Loeading cache...");
+		console.log('Loeading cache...');
 		await loadCache(message);
 		cacheLoaded = true;
 	}
@@ -65,7 +65,9 @@ client.on('message', async message => {
 	if (!client.commands.has(commandName)) {
 		return message.reply('Unrecognized command.');
 	}
-	if (client.userData[message.author.id] && !client.userData[message.author.id].admin && command.admin) { // Deny admin commands to public
+
+	if (command.admin && !(message.guild.members.cache.get(message.author.id).roles.cache.some(role => role.name === 'Organizer') || (client.userData[message.author.id] && client.userData[message.author.id].admin))) {
+		// if (client.userData[message.author.id] && !client.userData[message.author.id].admin && command.admin) { // Deny admin commands to public
 		return message.reply('Unrecognized command. ');
 	}
 
@@ -80,14 +82,14 @@ client.on('message', async message => {
 
 async function loadCache(message) {
 	if (message.guild.memberCount == message.guild.members.cache.size) {
-		await message.channel.send("Error: cache is already loaded.");
+		await message.channel.send('Error: cache is already loaded.');
 		return;
 	}
 
 	await message.guild.members.fetch()
-		.then(message.channel.send("Cache loaded."));
+		.then(message.channel.send('Cache loaded.'));
 	message.channel.send(
 		`Membercount: ${message.guild.memberCount} \n` +
-		`Cached member count ${message.guild.members.cache.size}`
+		`Cached member count ${message.guild.members.cache.size}`,
 	);
 }
