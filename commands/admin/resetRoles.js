@@ -7,16 +7,20 @@ module.exports = {
 	async execute(message, args, globals) {
 		const teams = args[0];
 
+		if (isNaN(teams)) return message.channel.send('Please enter the number of teams.');
+
 		const deletionList = ['Registered', 'Active Participant', 'Substitute'];
 		// const deletionList = ['Active Participant'];
-		for (let i = 0; i < teams; i++) {
-			deletionList.push(`Squad ${i + 1}`);
+		if (!isNaN(teams)) {
+			for (let i = 0; i < teams; i++) {
+				deletionList.push(`Squad ${i + 1}`);
+			}
 		}
 
 		for (let i = 0; i < deletionList.length; i++) {
 			await eraseRole(message, deletionList[i])
 				.then(() => message.channel.send(`Erasure of '${deletionList[i]}' complete.`));
 		}
-		return true;
+		return message.channel.send('Complete.');
 	},
 };

@@ -13,10 +13,10 @@ module.exports = {
 		const hours = Math.floor(ms / 1000 / 60 / 60);
 		ms -= hours * 60 * 60 * 1000;
 		const min = Math.floor(ms / 1000 / 60);
-		console.log(`hours: ${hours}, min: ${min}`);
+		console.log(`days: ${days} hours: ${hours}, min: ${min}`);
 
 		let txt = 'Registration will close in ';
-		if (days > 0 || min > 0) {
+		if (days > 0 || hours > 0) {
 			if (days > 0) {
 				if (days == 1) txt += '1 day, ';
 				else txt += `${days} days, `;

@@ -28,7 +28,7 @@ const Player = require('./helpers/Player.js');
 // Tournament Variables
 globals.readyPhase = false;
 globals.tourneyPhase = false;
-globals.tourneyDate = new Date('May 22, 2022, 016:45:00'); // start time
+globals.tourneyDate = new Date('September 23, 2022, 013:45:00'); // start time
 
 // debug/testing stuff
 globals.debug = false;
