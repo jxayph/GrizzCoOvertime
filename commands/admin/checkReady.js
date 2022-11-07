@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const Substitute = require('../../helpers/Substitute');
 
 module.exports = {
 	name: 'checkready',
@@ -15,6 +16,14 @@ module.exports = {
 		message.channel.send(`Setting \`readyPhase\` to ${globals.readyPhase}.`);
 
 		if (!globals.readyPhase || args[0] == '-v') return;
+
+		// Initiate subqueue
+		const memberList = message.guild.roles.cache.find(role => role.name == 'Substitute').members.map(m => m.user.id);
+		message.channel.send(`${memberList.length} substitute players.`);
+		globals.subQueue = [];
+		for (const member of memberList) {
+			globals.subQueue.push(new Substitute(member)); // Add user to global subQueue
+		}
 
 		const announcementChannel = globals.client.channels.cache.find(channel => channel.name === 'tournament-announcements');
 		const iconURL = 'https://cdn.discordapp.com/avatars/518861328526606347/b2774300463506104c08ee2d878f7459.png?size=128';

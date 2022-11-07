@@ -28,7 +28,8 @@ const Player = require('./helpers/Player.js');
 // Tournament Variables
 globals.readyPhase = false;
 globals.tourneyPhase = false;
-globals.tourneyDate = new Date('September 23, 2022, 013:45:00'); // start time
+globals.tourneyDate = new Date(require('./date.json').date); // reconstruct date object from json date string
+globals.subQueue = [];
 
 // debug/testing stuff
 globals.debug = false;
@@ -52,8 +53,8 @@ client.on('messageCreate', async message => {
 		return;
 	}
 
-	if (client.userData[message.author.id] != undefined && client.userData[message.author.id].admin && !cacheLoaded) {
-		console.log('Loeading cache...');
+	if (!cacheLoaded) {
+		console.log('Loading cache...');
 		await loadCache(message);
 		cacheLoaded = true;
 	}
@@ -81,6 +82,7 @@ client.on('messageCreate', async message => {
 });
 
 async function loadCache(message) {
+	const v = false;
 	if (message.guild.memberCount == message.guild.members.cache.size) {
 		await message.channel.send('Error: cache is already loaded.');
 		return;
@@ -88,8 +90,10 @@ async function loadCache(message) {
 
 	await message.guild.members.fetch()
 		.then(message.channel.send('Cache loaded.'));
-	message.channel.send(
-		`Membercount: ${message.guild.memberCount} \n` +
-		`Cached member count ${message.guild.members.cache.size}`,
-	);
+	if (v) {
+		message.channel.send(
+			`Membercount: ${message.guild.memberCount} \n` +
+			`Cached member count ${message.guild.members.cache.size}`,
+		);
+	}
 }

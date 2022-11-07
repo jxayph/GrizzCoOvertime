@@ -1,7 +1,9 @@
 const eraseRole = require('../../helpers/eraseRole.js').eraseRole;
+const saveUserData = require('../../helpers/saveUserData.js').saveUserData;
+
 module.exports = {
 	name: 'resetroles',
-	description: 'Reset tournament roles.',
+	description: 'Reset tournament roles. \n Format: !resetroles <teamCount>',
 	detailed: 'Removes the registered and active participant roles from all users in the server. Only use this after a tournament concludes.',
 	admin: true,
 	async execute(message, args, globals) {
@@ -21,6 +23,18 @@ module.exports = {
 			await eraseRole(message, deletionList[i])
 				.then(() => message.channel.send(`Erasure of '${deletionList[i]}' complete.`));
 		}
+
+		// Remove flags
+		const userData = globals.client.userData;
+		for (const userID in userData) {
+			userData[userID].registered = false;
+			userData[userID].ready = false;
+		}
+		saveUserData(globals.fs, globals.client);
+
+
 		return message.channel.send('Complete.');
+
+
 	},
 };

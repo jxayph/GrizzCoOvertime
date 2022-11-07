@@ -1,13 +1,15 @@
 const { MessageEmbed, RichPresenceAssets } = require('discord.js');
-const Substitute = require('../../helpers/Substitute.js');
+const Substitute = require('../../helpers/Substitute');
 
 module.exports = {
-	name: 'sub',
-	description: 'Register as a substitute player.',
-	detailed: 'To toggle sub status, simply call !sub again.\n',
-	admin: false,
+	name: 'forcesub',
+	description: 'Forcefully change a player\'s sub status !forcesub <mention>',
+	detailed: 'To toggle sub status, simply call !forcesub again.\n',
+	admin: true,
 	execute(message, args, globals) {
-		const member = message.guild.members.cache.get(message.author.id);
+
+		const userID = message.mentions.users.first().id;
+		const member = message.guild.members.cache.get(userID);
 
 		if (member.roles.cache.some(role => role.name === 'Active Participant')) { // If the user is a participant
 			const text = '❌ You\'re already participating!';
@@ -24,7 +26,7 @@ module.exports = {
 			message.channel.send({ embeds: [messageEmbed] });
 			message.react('❌');
 
-			removeSub(globals, message.author.id);
+			removeSub(globals, userID);
 		}
 		else {
 			member.roles.add(message.guild.roles.cache.find(role => role.name === 'Substitute'));
@@ -33,7 +35,7 @@ module.exports = {
 			message.channel.send({ embeds: [messageEmbed] });
 			message.react('✅');
 
-			globals.subQueue.push(new Substitute(message.author.id)); // Add user to global subQueue
+			globals.subQueue.push(new Substitute(userID)); // Add user to global subQueue
 		}
 
 		return;

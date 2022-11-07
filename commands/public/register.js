@@ -1,3 +1,5 @@
+const saveUserData = require('../../helpers/saveUserData.js').saveUserData;
+
 module.exports = {
 	name: 'register',
 	description: 'Allow users to register for the tournament.\nFormat: `!register <fc> <ign>, !register`',
@@ -14,7 +16,10 @@ module.exports = {
 			ign += ` ${args[i]}`;
 		}
 
-		if (globals.readyPhase || globals.tourneyPhase) {
+		const currentDate = new Date();
+		const ms = globals.tourneyDate - currentDate;
+
+		if (ms <= 0) {
 			message.channel.send('You may not change your registration status at this point in time.');
 			return;
 		}
@@ -107,10 +112,4 @@ function registerUser(message, fc, ign, client, fs) {
 	message.channel.send(`Successfully registered <@${userID}> as ${client.userData[userID].IGN} for the coming tournament.\nGood luck, and have fun!`);
 	console.log(client.userData[userID]);
 	return;
-}
-
-function saveUserData(fs, client) {
-	fs.writeFile('./userData.json', JSON.stringify(client.userData, null, 4), err => {
-		if (err) throw err;
-	});
 }

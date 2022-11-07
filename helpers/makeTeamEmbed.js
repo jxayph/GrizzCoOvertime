@@ -4,6 +4,8 @@ module.exports = {
 	makeTeamEmbed(teamMembers, teamNum, currentRound) {
 		const iconURL = 'https://cdn.discordapp.com/avatars/518861328526606347/b2774300463506104c08ee2d878f7459.png?size=128';
 
+		const deadline = new Date(Date.parse(new Date()) + 900000); // add 15min in ms
+
 		const teamEmbed = new MessageEmbed()
 			.setTitle(`[Squad ${(teamNum + 1)}] Round ${(currentRound + 1)}`)
 			.setDescription('Meet your squad!')

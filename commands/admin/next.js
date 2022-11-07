@@ -18,6 +18,10 @@ module.exports = {
 		// Ensure that scores are submitted before advancing rounds
 		if (!checkAllSubmitted(message, globals)) return;
 
+		// Reset sub assignment flags
+		for (let i = 0; i < globals.subQueue.length; i++) {
+			globals.subQueue[i].assigned = false;
+		}
 		// Increment the round counter
 		globals.currentRound++;
 		for (let i = 0; i < globals.teamCount; i++) {
@@ -45,8 +49,9 @@ module.exports = {
 
 			const players = [];
 			for (let teamIdx = 0; teamIdx < 4; teamIdx++) {
-				console.log('member ' + teamMembers[teamIdx] + 'at value ' + teamIdx);
-				if (teamMembers[teamIdx] != 'R') players.push(globals.players[teamMembers[teamIdx]]);
+				// console.log('member ' + teamMembers[teamIdx] + 'at value ' + teamIdx);
+				if (teamMembers[teamIdx] != 'R') players.push(globals.players[teamMembers[teamIdx]]); // Freelancer is represented by R
+				else await assignSub(message, team, globals);
 			}
 
 			for (let p = 0; p < players.length; p++) { // player index p
@@ -65,10 +70,15 @@ module.exports = {
 			if (globals.debug) { message.channel.send(makeTeamEmbed(players, team, globals.currentRound)); }
 
 			else { // sends squad messages to correct channels. also assigns the roles and stuff.
+				console.log(`Round ${globals.currentRound}:`);
 				await manageRoles(globals, message, players, team);
 				const channelName = `squad-${team + 1}-text`;
 				const squadChat = message.guild.channels.cache.find(channel => channel.name === channelName);
-				if (args[0] != '-v') squadChat.send(makeTeamEmbed(players, team, globals.currentRound));
+				if (args[0] != '-v') {
+					await squadChat.send(makeTeamEmbed(players, team, globals.currentRound))
+						.then(pingSub(team + 1, squadChat, globals)) // Ping the sub in the squad chat to let them know they've been assigned
+						.then(squadChat.send(`Please have your submission in before <t:${Date.parse(new Date()) / 1000 + 900}:t>`));
+				}
 			}
 		}
 
@@ -76,8 +86,8 @@ module.exports = {
 		if (args[0] != '-v') {
 			return announcementChannel.send(
 				'<@&736689720247058442>\n' +
-				'We have moved on to the next round! Please check your squad chats to meet your new teams.' +
-				'<@&934542087431524403>, please contact an Organizer if you wish to fill in for a freelancer.');
+				'We have moved on to the next round! Please check your squad chats to meet your new teams.');
+			// + '<@&934542087431524403>, please contact an Organizer if you wish to fill in for a freelancer.');
 		}
 	},
 };
@@ -106,4 +116,38 @@ async function removeSquadRoles(message, teamCount) {
 
 		await eraseRole(message, `Squad ${i + 1}`);
 	}
+}
+
+async function assignSub(message, team, globals) {
+	if (globals.subQueue.length > 0 && !globals.subQueue[0].assigned) { // If we have registered subs and the first sub in the queue is unassigned, add that sub to the squad.
+
+		const sub = globals.subQueue[0];
+
+		const guild = message.guild;
+		const member = await guild.members.fetch(sub.userID);
+		const newRole = guild.roles.cache.find(role => role.name === `Squad ${team + 1}`);
+		if (member != undefined) {
+			await member.roles.add(newRole)
+				.then(console.log(`Assigning role Squad ${team + 1} to substitute ID ${sub.userID}`));
+		}
+
+		sub.assigned = true;
+		sub.squad = team + 1;
+
+		globals.subQueue.push(globals.subQueue.splice(0, 1)[0]); // Move this assigned player to the back of the queue
+	}
+}
+
+async function pingSub(team, squadChat, globals) {
+	let index = -1;
+	for (let i = 0; (index == -1) && (i < globals.subQueue.length); i++) {
+		if (globals.subQueue[i].assigned && globals.subQueue[i].squad == team) index = i;
+	}
+
+	if (index != -1) {
+		const sub = globals.subQueue[index];
+		squadChat.send(sub.getMention() + `, you have been assigned to substitute in squad ${team}!`);
+	}
+
+
 }

@@ -3,7 +3,7 @@ module.exports = {
 	description: 'Admin command to register a user.\nFormat: `!forceregister <mention> <fc> <ign>',
 	detailed: 'FC must be 12 digits. FC is allowed to be led by SW, and/or separated by dashes. (\'-\')\n' +
 		'IGN must be 10 valid characters.\n' +
-		'To unregister, simply call !register again.\n' +
+		'To unregister, simply call !forceregister <mention> again.\n' +
 		'Registration status may not be changed after the tournament has started.',
 	admin: true,
 	execute(message, args, globals) {
