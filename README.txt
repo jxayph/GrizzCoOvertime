@@ -1,0 +1,2 @@
+If you plan to host an instance of eggbot, do remember to initialize the config file with your bot's token and guild ID.
+Many of the admin commands refer to specific channels within my personal guild, and those ID values will need to be changed accordingly as well.
