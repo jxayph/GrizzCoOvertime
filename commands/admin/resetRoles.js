@@ -32,7 +32,6 @@ module.exports = {
 		}
 		saveUserData(globals.fs, globals.client);
 
-
 		return message.channel.send('Complete.');
 
 

@@ -18,8 +18,14 @@ module.exports = {
 
 		const currentDate = new Date();
 		const ms = globals.tourneyDate - currentDate;
+		const userData = globals.client.userData[message.author.id];
+		if ((userData != undefined)
+			&& (userData.ready)) {
+			message.channel.send('You may not change your registration status if you are ready. Please unready first.');
+			return;
+		}
 
-		if (ms <= 0) {
+		if (globals.tourneyPhase) {
 			message.channel.send('You may not change your registration status at this point in time.');
 			return;
 		}

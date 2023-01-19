@@ -4,13 +4,14 @@ module.exports = {
 	detailed: 'haha',
 	admin: true,
 	execute(message, args) { // Ignoring third `globals` argument
+		if (args.length < 1) return;
 		let jessage = '';
-		for (let i = 0; i < args.length; i++) {
-			if (args[i][0] == '\n') {
-				jessage += '\nj' + args[i].slice(2) + ' ';
+		for (let j = 0; j < args.length; j++) {
+			if (args[j][0] == '\n') {
+				jessage += '\nj' + args[j].slice(2) + ' ';
 			}
-			else{
-				jessage += 'j' + args[i].slice(1) + ' ';
+			else {
+				jessage += 'j' + args[j].slice(1) + ' ';
 			}
 		}
 		message.channel.send(jessage);
