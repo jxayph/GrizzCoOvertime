@@ -7,15 +7,15 @@ module.exports = {
 		const currentDate = new Date();
 		let ms = globals.tourneyDate - currentDate;
 
-		if (ms <= 0) return message.channel.send('Registration is closed.');
+		if (ms <= 0 && ms > -900000) return message.channel.send('The tourney will begin shortly. Make sure to `!ready` up!');
+		else if (ms < 0) return message.channel.send('The next tournament has not been scheduled yet.');
 		const days = Math.floor(ms / 1000 / 60 / 60 / 24);
 		ms -= days * 1000 * 60 * 60 * 24;
 		const hours = Math.floor(ms / 1000 / 60 / 60);
 		ms -= hours * 60 * 60 * 1000;
 		const min = Math.floor(ms / 1000 / 60);
-		console.log(`days: ${days} hours: ${hours}, min: ${min}`);
 
-		let txt = 'Registration will close in ';
+		let txt = 'Check-in opens in ';
 		if (days > 0 || hours > 0) {
 			if (days > 0) {
 				if (days == 1) txt += '1 day, ';

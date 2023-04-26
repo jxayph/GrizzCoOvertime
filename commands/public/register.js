@@ -18,6 +18,9 @@ module.exports = {
 
 		const currentDate = new Date();
 		const ms = globals.tourneyDate - currentDate;
+		if (ms < 0) {
+			return message.channel.send('Registration is closed.');
+		}
 		const userData = globals.client.userData[message.author.id];
 		if ((userData != undefined)
 			&& (userData.ready)) {
@@ -104,9 +107,19 @@ function registerUser(message, fc, ign, client, fs) {
 		'ready': false,
 		'FC': fc,
 		'IGN': ign,
+		'rounds': 0,
+		'average': 0,
+		'tournies': 0,
+		'wins': 0,
+		'balance': 100,
 	};
 	if (userData) {
 		newUserData.admin = userData.admin;
+		newUserData.balance = userData.balance;
+		newUserData.rounds = userData.rounds;
+		newUserData.average = userData.average;
+		newUserData.tournies = userData.tournies;
+		newUserData.wins = userData.wins;
 	}
 
 	client.userData[userID] = newUserData;

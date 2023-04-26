@@ -1,0 +1,32 @@
+{
+    ".52 Gal": {
+        "damage": 52,
+        "damage2": -1,
+        "pierce": false,
+        "aoe": false
+    },
+    ".96 Gal": {
+        "damage": 85,
+        "damage2": -1,
+        "pierce": false,
+        "aoe": false
+    },
+    "Aerospray MG": {
+        "damage": 32,
+        "damage2": -1,
+        "pierce": false,
+        "aoe": false
+    },
+    "Ballpoint Splatling": {
+        "damage": 35,
+        "damage2": -1,
+        "pierce": false,
+        "aoe": false
+    },
+    "Bamboozler 14 Mk I": {
+        "damage": 150,
+        "damage2": 60,
+        "pierce": false,
+        "aoe": false
+    }
+}
