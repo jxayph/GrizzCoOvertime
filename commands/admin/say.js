@@ -4,11 +4,14 @@ module.exports = {
 	detailed: '!say channel message',
 	admin: true,
 	execute(message, args, globals) {
-		const channel = globals.client.channels.cache.find(thisChannel => thisChannel.id == args[0].slice(2, 20));
 
+		const channelID = args[0].slice(2, args[0].length - 1);
+		const channel = (globals.client.channels.cache.find(guildChannel => guildChannel.id === channelID));
+
+		if (!channel) return message.reply('Channel not found.');
 		let content = '';
 		let i = 1;
-		while(args[i]) {
+		while (args[i]) {
 			content += args[i] + ' ';
 			i++;
 		}

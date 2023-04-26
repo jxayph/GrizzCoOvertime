@@ -12,7 +12,6 @@ module.exports = {
 		if (isNaN(teams)) return message.channel.send('Please enter the number of teams.');
 
 		const deletionList = ['Registered', 'Active Participant', 'Substitute'];
-		// const deletionList = ['Active Participant'];
 		if (!isNaN(teams)) {
 			for (let i = 0; i < teams; i++) {
 				deletionList.push(`Squad ${i + 1}`);
@@ -30,6 +29,7 @@ module.exports = {
 			userData[userID].registered = false;
 			userData[userID].ready = false;
 		}
+		saveStats(globals);
 		saveUserData(globals.fs, globals.client);
 
 		return message.channel.send('Complete.');
@@ -37,3 +37,20 @@ module.exports = {
 
 	},
 };
+
+function saveStats(globals) {
+	const players = globals.players;
+	const userData = globals.client.userData;
+	if (players && userData) {
+		for (let i = 0; i < players.length; i++) {
+			const player = players[i];
+			const playerScore = player.getTotalScore();
+			const user = userData[player.userID];
+			user.tournies = user.tournies + 1;
+			user.balance += playerScore;
+			user.rounds += globals.currentRound + 1;
+			user.average = Math.floor(((user.average * user.rounds) + (playerScore) / (user.rounds + globals.currentRound + 1)));
+		}
+	}
+	return;
+}
