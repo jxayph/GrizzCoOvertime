@@ -44,4 +44,13 @@ module.exports = class Player {
 		return sum;
 	}
 
+	getTotalScore() {
+		let sum = 0;
+		for (let i = 0; i < this.scores.length; i++) {
+			sum += this.scores[i];
+		}
+		return sum;
+	}
+
+
 };
