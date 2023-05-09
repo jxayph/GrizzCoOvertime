@@ -88,9 +88,19 @@ function registerUser(message, fc, ign, client, fs, userID) {
 		'ready': false,
 		'FC': fc,
 		'IGN': ign,
+		'rounds': 0,
+		'average': 0,
+		'tournies': 0,
+		'wins': 0,
+		'balance': 100,
 	};
 	if (userData) {
 		newUserData.admin = userData.admin;
+		newUserData.balance = userData.balance;
+		newUserData.rounds = userData.rounds;
+		newUserData.average = userData.average;
+		newUserData.tournies = userData.tournies;
+		newUserData.wins = userData.wins;
 	}
 
 	client.userData[userID] = newUserData;

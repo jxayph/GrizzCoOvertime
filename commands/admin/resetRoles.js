@@ -48,8 +48,8 @@ function saveStats(globals) {
 			const user = userData[player.userID];
 			user.tournies = user.tournies + 1;
 			user.balance += playerScore;
-			user.rounds += globals.currentRound + 1;
 			user.average = Math.floor(((user.average * user.rounds) + (playerScore) / (user.rounds + globals.currentRound + 1)));
+			user.rounds += globals.currentRound + 1;
 		}
 	}
 	return;

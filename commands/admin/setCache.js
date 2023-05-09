@@ -10,7 +10,7 @@ module.exports = {
 		}
 
 		await message.guild.members.fetch()
-			.then(message.channel.send('Cache loaded.'));
+			.then(console.log('Cache loaded.'));
 		message.channel.send(
 			`Membercount: ${message.guild.memberCount} \n` +
 			`Cached member count ${message.guild.members.cache.size}`,
