@@ -15,7 +15,7 @@ module.exports = {
 		ms -= hours * 60 * 60 * 1000;
 		const min = Math.floor(ms / 1000 / 60);
 
-		let txt = 'Check-in opens in ';
+		let txt = 'Check-in begins in ';
 		if (days > 0 || hours > 0) {
 			if (days > 0) {
 				if (days == 1) txt += '1 day, ';

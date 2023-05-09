@@ -18,7 +18,7 @@ module.exports = {
 
 		const currentDate = new Date();
 		const ms = globals.tourneyDate - currentDate;
-		if (ms < 0) {
+		if (globals.tourneyPhase || ms < -900000) { // If the tourney is underway, or 15 minutes after check in
 			return message.channel.send('Registration is closed.');
 		}
 		const userData = globals.client.userData[message.author.id];
