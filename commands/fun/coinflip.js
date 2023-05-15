@@ -1,4 +1,5 @@
 const BOT_ID = '518861328526606347';
+const MAX_WAGER = '5000000';
 const saveUserData = require('../../helpers/saveUserData.js').saveUserData;
 const checkValue = require('../../helpers/checkValue.js').checkValue;
 
@@ -19,22 +20,21 @@ module.exports = {
 
 		let wager = parseInt(args[0]);
 		if (args[0] == 'all') wager = user.balance;
-
-		if (!checkValue(wager, user)) return message.reply('Please wager a valid number.');
+		else if (!checkValue(wager, user) || wager > MAX_WAGER) return message.reply('Please wager a valid number.');
 
 		let result = '';
 
-		if (Math.floor(Math.random() * 20) == 0) {
+		if (Math.floor(Math.random() * 10) == 0) { // 10% to lose immediately
 			result = 'A snatcher grabbed the coin out of the air! You lose.';
 			user.balance -= wager;
 			globals.client.userData[BOT_ID].balance += wager;
 		}
-		else if (Math.floor(Math.random() * 100) == 0) {
+		else if (Math.floor(Math.random() * 250) == 0) { // 0.4% chance to win 10x
 			result = 'The coin hit a snatcher, knocking it out of the sky! You win BIG.';
-			user.balance += (wager * 50);
-			globals.client.userData[BOT_ID].balance -= (wager * 50);
+			user.balance += (wager * 10);
+			globals.client.userData[BOT_ID].balance -= (wager * 10);
 		}
-		else if (Math.floor(Math.random() * 2) == 0) {
+		else if (Math.floor(Math.random() * 2) == 0) { // 50% to win 2x
 			result = 'Heads! You win.';
 			user.balance += wager;
 			globals.client.userData[BOT_ID].balance -= wager;
