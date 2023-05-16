@@ -1,5 +1,5 @@
 const BOT_ID = '518861328526606347';
-const MAX_WAGER = '5000000';
+const MAX_WAGER = '500';
 const saveUserData = require('../../helpers/saveUserData.js').saveUserData;
 const checkValue = require('../../helpers/checkValue.js').checkValue;
 
