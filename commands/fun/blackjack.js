@@ -91,7 +91,7 @@ module.exports = {
 						content += 'You bust! Game over.';
 						blackjack.end();
 					}
-					return channel.send(content);
+					channel.send(content);
 				}
 				else if (args[0] == 'stand') {
 					await channel.send(`The dealer's hand is: ${dealerHand.printHand(false)} and is worth ${dealerHand.value()}.\n`);
@@ -105,12 +105,12 @@ module.exports = {
 						user.balance += payout;
 						globals.client.userData[BOT_ID].balance -= payout;
 						blackjack.end();
-						return;
+
 					}
 					else if (dealerHand.value() > playerHand.value()) {
 						await channel.send(`Dealer wins with ${dealerHand.value()}! Game over.`);
 						blackjack.end();
-						return;
+
 					}
 					else if (dealerHand.value() < playerHand.value()) {
 						await channel.send(`Dealer stands with ${dealerHand.value()}. You win!`);
@@ -118,19 +118,21 @@ module.exports = {
 						user.balance += payout;
 						globals.client.userData[BOT_ID].balance -= payout;
 						blackjack.end();
-						return;
+
 					}
 					else if (dealerHand.value() == playerHand.value()) {
 						await channel.send('Push. Game over!');
 						user.balance += blackjack.wager;
 						globals.client.userData[BOT_ID].balance -= blackjack.wager;
 						blackjack.end();
-						return;
+
 					}
 				}
 				else {
 					return message.reply('Invalid argument.');
 				}
+
+				saveUserData(globals.fs, globals.client);
 				return;
 			}
 		}
@@ -271,10 +273,10 @@ class BlackJack {
 	newRound() {
 		let wasCut = false;
 		const deckLength = this.deck.getLength();
-		console.log(`New round, cut at ${this.cut} with ${deckLength} cards left.`);
+		// console.log(`New round, cut at ${this.cut} with ${deckLength} cards left.`);
 		if (deckLength < this.cut) {
 			this.newDeck();
-			console.log(`Shuffling dec, cutting at ${this.cut} with ${deckLength} cards left.`);
+			// console.log(`Shuffling dec, cutting at ${this.cut} with ${deckLength} cards left.`);
 			wasCut = true;
 		}
 		this.playerHand = new Hand();

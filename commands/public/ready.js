@@ -1,3 +1,4 @@
+const eraseRole = require('../../helpers/eraseRole.js').eraseRole;
 const { MessageEmbed } = require('discord.js');
 const removeSub = require('../../helpers/removeSub.js').removeSub;
 module.exports = {
@@ -16,11 +17,12 @@ module.exports = {
 				if (userData.ready) {
 					const text = `:x: Player ${userData.IGN} is **NOT** ready!`;
 
-					const messageEmbed = new MessageEmbed().setTitle(text);
-					message.channel.send({ embeds: [messageEmbed] });
-
 					member.roles.remove(message.guild.roles.cache.find(role => role.name === 'Active Participant'));
 					userData.ready = false;
+
+					globals.playerCount--;
+					const messageEmbed = new MessageEmbed().setTitle(text);
+					message.channel.send({ content: `${globals.playerCount} ready players.`, embeds: [messageEmbed] });
 					message.react('❌');
 				}
 				else {
@@ -36,8 +38,10 @@ module.exports = {
 
 					const messageEmbed = new MessageEmbed().setTitle(text);
 
-					message.channel.send({ embeds: [messageEmbed] });
+					globals.playerCount++;
+					message.channel.send({ content: `${globals.playerCount} ready players.`, embeds: [messageEmbed] });
 					message.react('✅');
+
 				}
 			}
 			else {

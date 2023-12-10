@@ -1,9 +1,11 @@
+const eraseRole = require('../../helpers/eraseRole.js').eraseRole;
 module.exports = {
 	name: 'submit',
 	description: 'Submit scores.',
 	detailed: 'Syntax: !submit <score> <team>',
 	admin: true,
 	execute(message, args, globals) {
+		if (isNaN(args[0]) || isNaN(args[1])) return message.reply('Invalid argument!');
 
 		// Return errors if not the right time to be submitting scores.
 		if (globals.tourneyPhase == false) {
@@ -28,7 +30,8 @@ module.exports = {
 		commmitScore(team, globals, parseInt(score));
 		globals.submitted[team] = true;
 
-		message.channel.send(`Submitted a score of ${score} for Team ${(team + 1)}.`);
+		message.channel.send(`Submitted a score of ${score} for Team ${(team + 1)}. Removing squad roles.`);
+		eraseRole(message, `Squad ${team + 1}`);
 
 		let waiting = '';
 		for (let i = 0; i < globals.teamCount; i++) {

@@ -5,7 +5,7 @@ module.exports = {
 		'May not be called unless there is a tournament actively running. Add "all" to see your scores for the rounds so far.',
 	admin: false,
 	execute(message, args, globals) {
-		if (!globals.tourneyPhase) {
+		if (!(globals.tourneyPhase || globals.postTourney)) {
 			return message.channel.send('There is currently no active tournament.');
 		}
 		else {

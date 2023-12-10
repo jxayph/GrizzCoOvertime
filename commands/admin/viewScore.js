@@ -4,7 +4,8 @@ module.exports = {
 	detailed: 'Syntax: !viewscore <playerMention>',
 	admin: true,
 	async execute(message, args, globals) {
-		if (!globals.tourneyPhase) {
+		if (!globals.tourneyPhase && !globals.postTourney) {
+			console.log(`tourneyphase ${globals.tourneyPhase}, posttourney ${globals.postTourney}`);
 			return message.channel.send('There is currently no active tournament.');
 		}
 		else {

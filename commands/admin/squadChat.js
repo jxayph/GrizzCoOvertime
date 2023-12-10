@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'squadchat',
 	description: 'Makes a bunch of squad chats',
+	detailed: 'Don\'t run this command',
 	admin: true,
 	async execute(message, args, globals) {
 		const DO_NOT_RUN = true;

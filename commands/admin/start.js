@@ -19,8 +19,10 @@ module.exports = {
 
 		globals.readyPhase = false;
 		globals.tourneyPhase = true;
+		globals.postTourney = false;
 		globals.submitted = [];
 		globals.scores = [];
+		globals.players = 0; // lazy hack for setPlayers
 		let data;
 		if (globals.debug) data = globals.client.userDataDebug;
 		else data = globals.client.userData;

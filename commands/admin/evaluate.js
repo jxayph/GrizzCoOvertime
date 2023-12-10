@@ -5,12 +5,14 @@ module.exports = {
 	detailed: '!evaluate <playerCount> <rounds>',
 	admin: true,
 	async execute(message, args, globals) {
-		message.channel.send(`Evaluating conflicts of seed ${args[0]}.json...`);
+		const numPlayers = parseInt(args[0]);
+		if (isNaN(numPlayers) || !isFinite(numPlayers)) return message.reply('Invalid number.');
+		message.channel.send(`Evaluating conflicts of seed ${numPlayers}.json...`);
 
-		const file = `${args[0]}.json`;
+		const file = `${numPlayers}.json`;
 		const seed = require(`../../seeds/${file}`);
-		const playerCount = parseInt(args[0]);
-		const teamCount = Math.ceil(parseInt(args[0]) / 4);
+		const playerCount = parseInt(numPlayers);
+		const teamCount = Math.ceil(parseInt(numPlayers) / 4);
 		const roundCount = seed.length / teamCount / 4;
 
 		let stopRound = args[1];

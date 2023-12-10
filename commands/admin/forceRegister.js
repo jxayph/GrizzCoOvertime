@@ -15,7 +15,7 @@ module.exports = {
 			ign += ` ${args[i]}`;
 		}
 
-		registerUser(message, fc, ign, globals.client, globals.fs, userID);
+		registerUser(message, fc, ign, globals.client, globals.fs, userID, globals);
 
 		return;
 	},
@@ -57,7 +57,7 @@ function sanitizeIGN(ign) {
 	return ign;
 }
 
-function registerUser(message, fc, ign, client, fs, userID) {
+function registerUser(message, fc, ign, client, fs, userID, globals) {
 	const userData = client.userData[userID];
 	const member = message.guild.members.cache.get(userID);
 	let err = '';
@@ -66,7 +66,8 @@ function registerUser(message, fc, ign, client, fs, userID) {
 		userData.registered = false;
 		member.roles.remove(message.guild.roles.cache.find(role => role.name === 'Registered'));
 		saveUserData(fs, client);
-		message.channel.send(`Successfuly unregistered <@${userID}>. We hope to see you in the next one!`);
+		globals.registeredCount--;
+		message.channel.send(`Successfuly unregistered <@${userID}>. We hope to see you in the next one!\n${globals.registeredCount} players are registered.`);
 		message.react('✅');
 		return;
 	}
@@ -109,7 +110,8 @@ function registerUser(message, fc, ign, client, fs, userID) {
 
 	saveUserData(fs, client);
 
-	message.channel.send(`Successfully registered <@${userID}> as ${client.userData[userID].IGN} for the coming tournament.\nGood luck, and have fun!`);
+	globals.registeredCount++;
+	message.channel.send(`Successfully registered <@${userID}> as ${client.userData[userID].IGN} for the coming tournament.\nGood luck, and have fun!\n${globals.registeredCount} players are registered.`);
 	console.log(client.userData[userID]);
 	return;
 }

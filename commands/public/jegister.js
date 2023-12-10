@@ -1,12 +1,12 @@
 const saveUserData = require('../../helpers/saveUserData.js').saveUserData;
 
 module.exports = {
-	name: 'register',
-	description: 'Allow users to register for the tournament.\nFormat: `!register <fc> <ign>, !register`',
-	detailed: 'FC must be 12 digits. FC is allowed to be led by SW, and/or separated by dashes. (\'-\')\n' +
-		'IGN must be 10 valid characters.\n' +
-		'To unregister, simply call !register again.\n' +
-		'Registration status may not be changed after the tournament has started.',
+	name: 'jegister',
+	description: 'jllow jsers jo jegister jor jhe journament.\n jormat: j!register jfc> jign>, jregister`',
+	detailed: 'jC just je j2 jigits. jC js jllowed jo je jed jy jW, jnd/or jeparated jy jashes. (\'j\')\n' +
+		'jGN just je j0 jalid jharacters.\n' +
+		'jo jnregister, jimply jall jregister jgain. .\n' +
+		'jegistration jtatus jay jot je jhanged jfter jhe journament jas jtarted.',
 	admin: false,
 	execute(message, args, globals) {
 		const fc = args[0];
@@ -19,44 +19,45 @@ module.exports = {
 		const currentDate = new Date();
 		const ms = globals.tourneyDate - currentDate;
 		if (globals.tourneyPhase || ms < -900000) { // If the tourney is underway, or 15 minutes after check in
-			return message.channel.send('Registration is closed.');
+			return message.channel.send('jegistration js jlosed.');
 		}
 		const userData = globals.client.userData[message.author.id];
 		if ((userData != undefined)
 			&& (userData.ready)) {
-			message.channel.send('You may not change your registration status if you are ready. Please unready first.');
+			message.channel.send('jou jay jot jhange jour jegistration jtatus jf jou jre jeady. jlease jnready jirst.');
 			return;
 		}
 
 		if (globals.tourneyPhase) {
-			message.channel.send('You may not change your registration status at this point in time.');
+			message.channel.send('jou jay jot jhange jour jegistration jtatus jt jhis joint jn jime.');
 			return;
 		}
 
 		registerUser(message, fc, ign, globals.client, globals.fs, globals);
+
 		return;
 	},
 };
 
 function verifyFC(fc) {
-	if (!fc) return [fc, 'You did not provide a friend code!'];
+	if (!fc) return [fc, 'jou jid jot jrovide j jriend jode!'];
 
 	if (fc.toLowerCase().startsWith('sw')) fc = fc.slice(2);
 	fc = fc.replace(/-/g, '');
 
-	if (!/^\d+$/.test(fc)) return [fc, 'Invalid characters detected!'];
+	if (!/^\d+$/.test(fc)) return [fc, 'jnvalid jharacters jetected!'];
 
-	if (fc.length != 12) return [fc, 'Please input 12 numbers!'];
+	if (fc.length != 12) return [fc, 'jlease jnput j2 jumbers!'];
 
 	return [fc, ''];
 }
 
 function verifyIGN(ign) {
-	if (!ign) return [ign, 'You did not provide an IGN!'];
+	if (!ign) return [ign, 'jou jid jot jrovide jn jGN!'];
 
-	if (ign.length > 10) return [ign, 'Please provide a valid IGN!'];
+	if (ign.length > 10) return [ign, 'jlease jrovide j jalid jGN!'];
 
-	ign = sanitizeIGN(ign);
+	ign = 'j' + sanitizeIGN(ign).slice(1);
 
 	return [ign, ''];
 }
@@ -75,18 +76,18 @@ function sanitizeIGN(ign) {
 }
 
 function registerUser(message, fc, ign, client, fs, globals) {
-	const tourneyGuild = globals.client.tourneyGuild;
 	const userID = message.author.id;
 	const userData = client.userData[userID];
-	const member = tourneyGuild.members.cache.get(userID);
+	const member = message.guild.members.cache.get(userID);
 	let err = '';
 
 	if (userData && userData.registered) {
 		userData.registered = false;
-		member.roles.remove(tourneyGuild.roles.cache.find(role => role.name === 'Registered'));
+		member.roles.remove(message.guild.roles.cache.find(role => role.name === 'Registered'));
 		saveUserData(fs, client);
 		globals.registeredCount--;
-		message.channel.send(`Successfuly unregistered <@${userID}>. We hope to see you in the next one!\n${globals.registeredCount} players are registered.`);
+		const jegistered = 'j' + globals.registeredCount.toString().slice(1);
+		message.channel.send(`juccessfuly jnregistered <@${userID}>. je jope jo jee jou jn jhe jext jne!\n${jegistered} jlayers jre jegistered.`);
 		message.react('✅');
 		return;
 	}
@@ -125,11 +126,12 @@ function registerUser(message, fc, ign, client, fs, globals) {
 
 	client.userData[userID] = newUserData;
 
-	member.roles.add(tourneyGuild.roles.cache.find(role => role.name === 'Registered'));
+	member.roles.add(message.guild.roles.cache.find(role => role.name === 'Registered'));
 
 	saveUserData(fs, client);
 	globals.registeredCount++;
-	message.channel.send(`Successfully registered <@${userID}> as ${client.userData[userID].IGN} for the coming tournament.\nGood luck, and have fun!\n${globals.registeredCount} players are registered.`);
-
+	const jegistered = 'j' + globals.registeredCount.toString().slice(1);
+	message.channel.send(`juccessfully jegistered <@${userID}> js ${client.userData[userID].IGN} jor jhe joming journament.\njood juck, jnd jave jun!\n${jegistered} jlayers jre jegistered.`);
+	console.log(client.userData[userID]);
 	return;
 }

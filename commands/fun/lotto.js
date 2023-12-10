@@ -1,6 +1,7 @@
 const BOT_ID = '518861328526606347';
 const checkValue = require('../../helpers/checkValue.js').checkValue;
 const saveLottoData = require('../../helpers/saveLottoData.js').saveLottoData;
+const saveUserData = require('../../helpers/saveUserData.js').saveUserData;
 
 module.exports = {
 	name: 'lotto',
@@ -20,11 +21,10 @@ module.exports = {
 		if (checkValue(wager, user) && wager != 0) {
 			globals.client.lotto.buy(message.author.id.toString(), wager);
 			user.balance -= wager;
-
-			globals.client.lotto.buy('518861328526606347', wager);
-			globals.client.userData[BOT_ID].balance -= wager;
+			globals.client.userData[BOT_ID].balance += wager;
 
 			saveLottoData(globals.fs, globals.client);
+			saveUserData(globals.fs, globals.client);
 		}
 		else {
 			return message.reply('Please enter a valid number.');

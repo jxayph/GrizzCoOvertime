@@ -20,7 +20,7 @@ module.exports = {
 
 		let wager = parseInt(args[0]);
 		if (args[0] == 'all') wager = user.balance;
-		else if (!checkValue(wager, user) || wager > MAX_WAGER) return message.reply('Please wager a valid number.');
+		else if (!checkValue(wager, user) || wager > MAX_WAGER) return message.reply('Please wager a valid number. The max wager is 500.');
 
 		let result = '';
 
