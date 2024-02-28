@@ -16,6 +16,7 @@ module.exports = {
 
 		if (UNREG) { // Check for -r flag, otherwise remove registered role as well.
 			deletionList.push('Registered');
+			globals.registeredCount = 0;
 		}
 
 		if (!isNaN(teams)) {
@@ -40,11 +41,11 @@ module.exports = {
 
 		globals.readyPhase = false;
 		globals.playerCount = 0;
-		globals.registeredCount = 0;
 		globals.tourneyPhase = false;
 		globals.postTourney = true;
 		globals.subQueue = [];
 
+		console.log('Successfuly reset roles.');
 		return message.channel.send('Complete.');
 	},
 };

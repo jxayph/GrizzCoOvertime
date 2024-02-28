@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'checkencounters',
 	description: 'View a player\'s encounter history.',
-	detailed: 'Syntax: !viewscore <playerMention>',
+	detailed: 'Syntax: !checkencounters <playerMention>',
 	admin: true,
 	async execute(message, args, globals) {
 		if (!globals.tourneyPhase) {

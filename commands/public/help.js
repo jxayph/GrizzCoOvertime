@@ -18,19 +18,23 @@ module.exports = {
 					value: command.description,
 				});
 			}
-			const helpEmbed = new MessageEmbed()
-				.setTitle('Command List')
-				.setDescription('For more details, please call !help <command>.')
-				.addFields(commandInfo)
-				.setThumbnail(iconURL)
-				.setTimestamp(new Date())
-				.setFooter({
-					text: 'Now go out there and get me some golden eggs!',
-					icon_url: iconURL,
-				});
+			const numEmbeds = Math.floor(commandInfo.length / 25);
+			for (let i = 0; i < numEmbeds + 1; i++) {
+				const helpEmbed = new MessageEmbed()
+					.setTitle('Command List')
+					.setURL(docURL)
+					.setDescription('For more details, please call !help <command>.')
+					.setThumbnail(iconURL)
+					.addFields(commandInfo.slice(i * 25, i * 25 + 25))
+					.setTimestamp(new Date())
+					.setFooter({
+						text: 'Now go out there and get me some golden eggs!',
+						icon_url: iconURL,
+					});
 
-			message.channel.send({ embeds: [helpEmbed] });
 
+				message.channel.send({ embeds: [helpEmbed] });
+			}
 		}
 		else {
 			const command = publicCommands.filter(thisCommand => thisCommand.name == args[0]);
