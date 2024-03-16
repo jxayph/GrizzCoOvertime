@@ -46,6 +46,7 @@ globals.readyPhase = false;
 globals.tourneyPhase = false;
 globals.tourneyDate = new Date(require('./date.json').date); // reconstruct date object from json date string
 globals.subQueue = [];
+globals.redos = [];
 globals.postTourney = false;
 globals.playerCount = 0;
 globals.registeredCount = getRegisteredCount();
@@ -89,7 +90,7 @@ client.on('messageCreate', async message => {
 		message.react('🥦');
 	}
 
-	if (Math.floor(Math.random() * 100) == 0) {
+	if (!message.author.bot && (Math.floor(Math.random() * 100) == 0)) {
 		joots(message);
 	}
 

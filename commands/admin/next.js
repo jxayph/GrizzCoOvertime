@@ -22,7 +22,7 @@ module.exports = {
 		for (let i = 0; i < globals.subQueue.length; i++) {
 			globals.subQueue[i].assigned = false;
 		}
-		// Increment the round counter
+		// Increment the round counter and reset submitted flags
 		globals.currentRound++;
 		for (let i = 0; i < globals.teamCount; i++) {
 			globals.submitted[i] = false;
@@ -38,7 +38,7 @@ module.exports = {
 		const seed = globals.seed;
 		const teamCount = globals.teamCount;
 
-		// Remove old roles
+		// Remove old roles EDIT: might be able to cut this now that squad roles are removed in submit
 		await removeSquadRoles(message, teamCount);
 
 		// Send out team embeds & log encounters for each player
@@ -54,6 +54,7 @@ module.exports = {
 				else await assignSub(message, team, globals);
 			}
 
+			// Encounter logging
 			for (let p = 0; p < players.length; p++) { // player index p
 				for (let t = 0; t < players.length; t++) { // teammate index t
 					if (p != t) {
@@ -136,6 +137,7 @@ async function assignSub(message, team, globals) {
 
 		globals.subQueue.push(globals.subQueue.splice(0, 1)[0]); // Move this assigned player to the back of the queue
 	}
+	return;
 }
 
 async function pingSub(team, squadChat, globals) {

@@ -8,7 +8,7 @@ module.exports = {
 	admin: true,
 	async execute(message, args, globals) {
 		const teams = args[0];
-		const UNREG = (args[1] == '-r');
+		const UNREG = (args.includes('-r'));
 
 		if (isNaN(teams)) return message.channel.send('Please enter the number of teams.');
 
@@ -36,6 +36,16 @@ module.exports = {
 			if (UNREG) userData[userID].registered = false;
 			userData[userID].ready = false;
 		}
+
+		// Move squadchats to extra zone
+		const squadChatCategoryID = globals.client.tourneyGuild.channels.cache.filter(ch => ch.type === 'GUILD_CATEGORY' && ch.name === 'Squad Chat').first().id;
+		const extraSquadChatCategoryID = globals.client.tourneyGuild.channels.cache.filter(ch => ch.type === 'GUILD_CATEGORY' && ch.name === 'Extra Squad Chats').first().id;
+		const squadChats = globals.client.tourneyGuild.channels.cache.filter(ch => ch.parentId === squadChatCategoryID);
+
+		squadChats.forEach(squad => {
+			squad.setParent(extraSquadChatCategoryID, { lockPermissions: false });
+		});
+
 		saveStats(globals);
 		saveUserData(globals.fs, globals.client);
 
@@ -44,6 +54,7 @@ module.exports = {
 		globals.tourneyPhase = false;
 		globals.postTourney = true;
 		globals.subQueue = [];
+		globals.redos = [];
 
 		console.log('Successfuly reset roles.');
 		return message.channel.send('Complete.');

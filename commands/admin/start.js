@@ -39,13 +39,21 @@ module.exports = {
 			globals.submitted.push(true);
 		}
 
+		// Move active squad chats into category
+		const squadChatCategoryID = globals.client.tourneyGuild.channels.cache.filter(ch => ch.type === 'GUILD_CATEGORY' && ch.name === 'Squad Chat').first().id;
+		for (let i = 1; i < globals.teamCount + 1; i++) {
+			globals.client.tourneyGuild.channels.cache.find(ch => ch.name == `Squad ${i} Voice`).setParent(squadChatCategoryID, { lockPermissions: false });
+			globals.client.tourneyGuild.channels.cache.find(ch => ch.name == `squad-${i}-text`).setParent(squadChatCategoryID, { lockPermissions: false });
+		}
+
+
 		message.channel.send(globals.playerCount + ' ready players.');
 		message.channel.send(globals.teamCount + ' teams.');
 
 		loadSeed(filteredData.length, globals); // Load in the corresponding seed to # of ready players
 		setPlayers(filteredData, globals); // Build player objects for each ready player
 
-		if (args[0] == '-v') return; // minus verbosity flag
+		if (args.includes('-v')) return; // minus verbosity flag
 
 		const channel = globals.client.channels.cache.find(thisChannel => thisChannel.name === 'tournament-announcements');
 

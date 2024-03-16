@@ -3,7 +3,7 @@ const saveRehabData = require('../../helpers/saveRehabData.js').saveRehabData;
 module.exports = {
 	name: 'forcerehab',
 	description: 'Forcefully admit a player to rehab, indefinitely.',
-	detailed: 'To toggle sub status, simply call !forcesub again.\n',
+	detailed: 'To toggle rehab status, simply call !forcerehab <mention> again.\n',
 	admin: true,
 	execute(message, args, globals) {
 
