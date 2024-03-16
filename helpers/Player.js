@@ -1,3 +1,8 @@
+/*
+Player object, stored in globals.players array. Indexed at random at the start of the tourney.
+*/
+
+
 const DC_VALUE = 0;
 const FREELANCER_VALUE = 0;
 
